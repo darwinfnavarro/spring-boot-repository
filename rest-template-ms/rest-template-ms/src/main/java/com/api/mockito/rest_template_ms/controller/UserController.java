@@ -1,6 +1,7 @@
 package com.api.mockito.rest_template_ms.controller;
 
 import com.api.mockito.rest_template_ms.dto.UserDTO;
+import com.api.mockito.rest_template_ms.service.UserNotFoundException;
 import com.api.mockito.rest_template_ms.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {
+
+
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
@@ -29,12 +32,12 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable("id") Integer id, @RequestBody UserDTO userDTO) {
+    public void updateUser(@PathVariable("id") Integer id, @RequestBody UserDTO userDTO) throws UserNotFoundException {
         userService.updateUser(id, userDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Integer id) {
+    public void deleteUser(@PathVariable("id") Integer id) throws UserNotFoundException {
         userService.deleteUser(id);
     }
 }
